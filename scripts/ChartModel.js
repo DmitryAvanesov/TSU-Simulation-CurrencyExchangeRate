@@ -8,14 +8,13 @@ class ChartModel {
     };
 
     this.data = [];
-    this.maxDecrease = 0.85;
-    this.maxIncrease = 1.15;
+    this.maxRateChange = 1.5;
   }
 
   generateData(numberOfDays) {
-    this.randomizeExchangeRates();
-
     for (let day = 0; day < numberOfDays; day++) {
+      this.randomizeExchangeRates();
+
       this.data.push({
         name: day,
         dollar: this.exchangeRates.dollar,
@@ -26,7 +25,7 @@ class ChartModel {
 
   randomizeExchangeRates() {
     for (const rate in this.exchangeRates) {
-      this.exchangeRates[rate] = (this.exchangeRates[rate] * (Math.random() * (this.maxIncrease - this.maxDecrease) + this.maxDecrease)).toFixed(2);
+      this.exchangeRates[rate] = Math.max(0, (this.exchangeRates[rate] + (Math.random() * (2 * this.maxRateChange) - this.maxRateChange)).toFixed(2));
     }
   }
 }

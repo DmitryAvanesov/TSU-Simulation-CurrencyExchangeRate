@@ -7,7 +7,7 @@ class Chart extends React.Component {
     this.model = new ChartModel();
     this.chartWidth = 600;
     this.chartHeight = 400;
-    this.chartMargin = 10;
+    this.chartMargin = 25;
   }
 
   render() {
@@ -17,7 +17,7 @@ class Chart extends React.Component {
       <window.Recharts.LineChart
         width={this.chartWidth}
         height={this.chartHeight}
-        data={this.model.data}
+        data={this.model.data.slice()}
         margin={{
           top: this.chartMargin,
           right: this.chartMargin,
@@ -25,8 +25,8 @@ class Chart extends React.Component {
           left: this.chartMargin
         }}
       >
-        <window.Recharts.CartesianGrid strokeDasharray="3 3" />
-        <window.Recharts.XAxis dataKey="name" />
+        <window.Recharts.CartesianGrid />
+        <window.Recharts.XAxis />
         <window.Recharts.YAxis />
         <window.Recharts.Tooltip />
         <window.Recharts.Legend />
@@ -39,7 +39,11 @@ class Chart extends React.Component {
     const lines = [];
 
     for (const rate in this.model.exchangeRates) {
-      lines.push(<window.Recharts.Line type="monotone" dataKey={rate} stroke="#82ca9d" />);
+      lines.push(<window.Recharts.Line
+        type='linear'
+        dataKey={rate}
+        stroke={'#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)}
+        dot={false} />);
     }
 
     return lines;
