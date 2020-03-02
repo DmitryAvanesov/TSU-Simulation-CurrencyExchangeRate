@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box;
+  font-family: monospace;
+}
+
+.settings {
+  width: fit-content;
+  background-color: #083045;
+  color: white;
+  padding: 10px;
+
+  * {
+    font-size: 18px;
+  }
+
+  .span-margin-right {
+    margin-right: 20px;
+  }
+}
