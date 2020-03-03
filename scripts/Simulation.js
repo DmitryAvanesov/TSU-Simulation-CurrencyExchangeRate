@@ -6,10 +6,15 @@ class Simulation extends React.Component {
 
     this.state = {
       numberOfDays: 0,
-      controlsDisabled: true
+      controlsDisabled: true,
+      exchangeRates: {
+        dollar: 67.05,
+        euro: 74.67
+      }
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleExchangeRatesChange = this.handleExchangeRatesChange.bind(this);
   }
 
   render() {
@@ -18,10 +23,13 @@ class Simulation extends React.Component {
         <Settings
           onShowButtonClick={this.handleButtonClick} />
         <Chart
-          numberOfDays={this.state.numberOfDays} />
+          numberOfDays={this.state.numberOfDays}
+          exchangeRates={this.state.exchangeRates}
+          onExchangeRatesChange={this.handleExchangeRatesChange} />
         <Controls
           onNextButtonClick={this.handleButtonClick}
-          disabled={this.state.controlsDisabled} />
+          disabled={this.state.controlsDisabled}
+          exchangeRates={this.state.exchangeRates} />
       </div>
     );
   }
@@ -30,6 +38,12 @@ class Simulation extends React.Component {
     this.setState({
       numberOfDays: this.state.numberOfDays + parseFloat(newNumberOfDays),
       controlsDisabled: false
+    });
+  }
+
+  handleExchangeRatesChange(newExchangeRates) {
+    this.setState({
+      exchangeRates: newExchangeRates
     });
   }
 }

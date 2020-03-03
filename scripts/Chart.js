@@ -11,7 +11,10 @@ class Chart extends React.Component {
   }
 
   render() {
-    this.model.generateData(this.props.numberOfDays);
+    if (this.props.numberOfDays - this.model.data.length > 0) {
+      this.model.generateData(this.props.numberOfDays, this.props.exchangeRates);
+      this.props.onExchangeRatesChange(this.model.curExchangeRates);
+    }
 
     return (
       <window.Recharts.LineChart
@@ -38,7 +41,7 @@ class Chart extends React.Component {
   renderLines() {
     const lines = [];
 
-    for (const rate in this.model.exchangeRates) {
+    for (const rate in this.props.exchangeRates) {
       lines.push(<window.Recharts.Line
         type='linear'
         dataKey={rate}
