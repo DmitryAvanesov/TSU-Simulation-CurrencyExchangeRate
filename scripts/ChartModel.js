@@ -8,15 +8,19 @@ class ChartModel {
     };
 
     this.data = [];
+    this.initialDate = new Date(2020, 2, 1);
     this.maxRateChange = 1.5;
   }
 
   generateData(numberOfDays) {
-    for (let day = this.data.length; day < numberOfDays; day++) {
+    for (let curDay = this.data.length; curDay < numberOfDays; curDay++) {
       this.randomizeExchangeRates();
 
+      var tmpDate = new Date();
+      tmpDate.setDate(this.initialDate.getDate() + curDay);
+  
       this.data.push({
-        name: day,
+        time: tmpDate.toLocaleString().split(',')[0],
         dollar: this.exchangeRates.dollar,
         euro: this.exchangeRates.euro
       });

@@ -26,7 +26,7 @@ class Chart extends React.Component {
         }}
       >
         <window.Recharts.CartesianGrid />
-        <window.Recharts.XAxis />
+        <window.Recharts.XAxis dataKey='time' />
         <window.Recharts.YAxis />
         <window.Recharts.Tooltip />
         <window.Recharts.Legend />
