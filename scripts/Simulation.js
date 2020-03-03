@@ -5,26 +5,31 @@ class Simulation extends React.Component {
     super(props);
 
     this.state = {
-      numberOfDays: 0
+      numberOfDays: 0,
+      controlsDisabled: true
     }
 
-    this.handleShowButtonClick = this.handleShowButtonClick.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
   }
 
   render() {
     return (
       <div>
         <Settings
-          onShowButtonClick={this.handleShowButtonClick} />
+          onShowButtonClick={this.handleButtonClick} />
         <Chart
           numberOfDays={this.state.numberOfDays} />
+        <Controls
+          onNextButtonClick={this.handleButtonClick}
+          disabled={this.state.controlsDisabled} />
       </div>
     );
   }
 
-  handleShowButtonClick(newNumberOfDays) {
+  handleButtonClick(newNumberOfDays = 1) {
     this.setState({
-      numberOfDays: newNumberOfDays
+      numberOfDays: this.state.numberOfDays + parseFloat(newNumberOfDays),
+      controlsDisabled: false
     });
   }
 }

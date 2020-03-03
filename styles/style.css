@@ -4,7 +4,7 @@
   font-family: monospace;
 }
 
-.settings {
+.panel {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -13,11 +13,11 @@
   padding: 10px;
 }
 
-.settings * {
+.panel * {
   font-size: 18px;
 }
 
-.settings .span-margin-right {
+.panel .span-margin-right {
   margin-right: 15px;
 }
 /*# sourceMappingURL=style.css.map */

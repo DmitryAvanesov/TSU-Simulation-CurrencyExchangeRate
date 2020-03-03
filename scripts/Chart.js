@@ -7,7 +7,7 @@ class Chart extends React.Component {
     this.model = new ChartModel();
     this.chartWidth = 600;
     this.chartHeight = 400;
-    this.chartMargin = 25;
+    this.chartMargin = 20;
   }
 
   render() {

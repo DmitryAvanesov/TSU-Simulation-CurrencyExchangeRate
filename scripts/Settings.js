@@ -14,7 +14,7 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <div className='settings'>
+      <div className='panel'>
         <span className='span-margin-right'>Number of days</span>
 
         <input

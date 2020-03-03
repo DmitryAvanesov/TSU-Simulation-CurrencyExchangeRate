@@ -12,7 +12,7 @@ class ChartModel {
   }
 
   generateData(numberOfDays) {
-    for (let day = 0; day < numberOfDays; day++) {
+    for (let day = this.data.length; day < numberOfDays; day++) {
       this.randomizeExchangeRates();
 
       this.data.push({
