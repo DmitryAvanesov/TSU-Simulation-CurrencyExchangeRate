@@ -10,15 +10,33 @@
   padding: 10px;
 
   * {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .span-margin-right {
     margin-right: 15px;
   }
 
-  ul {
+  .next-day-button {
+    vertical-align: top;
+  }
+
+  .budget {
     list-style-type: none;
     padding-left: 0;
+    display: inline-block;
+    margin: 0 0 15px 25px;
+  }
+
+  button {
+    border: 1px white solid;
+    background: #490752;
+    color: white;
+  }
+
+  .purchase {
+    * {
+      margin-right: 10px;
+    }
   }
 }

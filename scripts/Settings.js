@@ -14,7 +14,7 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <div className='panel'>
+      <div className='panel' style={{opacity: this.state.disabled ? 0.75 : 1}}>
         <span className='span-margin-right'>Number of days</span>
 
         <input

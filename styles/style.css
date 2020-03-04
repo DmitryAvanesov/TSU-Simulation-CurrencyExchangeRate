@@ -12,15 +12,31 @@
 }
 
 .panel * {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .panel .span-margin-right {
   margin-right: 15px;
 }
 
-.panel ul {
+.panel .next-day-button {
+  vertical-align: top;
+}
+
+.panel .budget {
   list-style-type: none;
   padding-left: 0;
+  display: inline-block;
+  margin: 0 0 15px 25px;
+}
+
+.panel button {
+  border: 1px white solid;
+  background: #490752;
+  color: white;
+}
+
+.panel .purchase * {
+  margin-right: 10px;
 }
 /*# sourceMappingURL=style.css.map */
