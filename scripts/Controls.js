@@ -4,18 +4,23 @@ class Controls extends React.Component {
   constructor(props) {
     super(props);
 
-    this.model = new ControlsModel();
     this.state = {
-      toBuy: null,
-      toSell: null,
+      toBuy: 0,
+      toSell: 0,
       buyCurrency: 'ruble',
-      sellCurrency: 'ruble'
+      sellCurrency: 'ruble',
+      budget: {
+        ruble: 50000,
+        dollar: 300,
+        euro: 100
+      }
     };
 
     this.handleNextDayButtonClick = this.handleNextDayButtonClick.bind(this);
     this.handleToBuyInputChange = this.handleToBuyInputChange.bind(this);
     this.handleBuyCurrencySelectChange = this.handleBuyCurrencySelectChange.bind(this);
     this.handleSellCurrencySelectChange = this.handleSellCurrencySelectChange.bind(this);
+    this.handleConfirmButtonClick = this.handleConfirmButtonClick.bind(this);
   }
 
   render() {
@@ -70,7 +75,7 @@ class Controls extends React.Component {
               {this.renderCurrencies()}
             </select>
 
-            <button>Confirm</button>
+            <button onClick={this.handleConfirmButtonClick}>Confirm</button>
           </div>
         </div>
       </div>
@@ -80,8 +85,8 @@ class Controls extends React.Component {
   renderBudget() {
     var listItems = [];
 
-    for (const currency in this.model.budget) {
-      listItems.push(<li>{currency}: {this.model.budget[currency]}</li>);
+    for (const currency in this.state.budget) {
+      listItems.push(<li>{currency}: {this.state.budget[currency]}</li>);
     }
 
     return listItems;
@@ -90,7 +95,7 @@ class Controls extends React.Component {
   renderCurrencies() {
     var options = [];
 
-    for (const currency in this.model.budget) {
+    for (const currency in this.state.budget) {
       options.push(<option value={currency}>{currency}</option>);
     }
 
@@ -99,28 +104,46 @@ class Controls extends React.Component {
 
   handleNextDayButtonClick(event) {
     this.setState({
-      toSell: (this.state.toBuy * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2)
+      toSell: parseFloat((this.state.toBuy * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2))
     });
+
+    console.log(typeof(this.state.toSell));
   }
 
   handleToBuyInputChange(event) {
     this.setState({
       toBuy: event.target.value === '' ? 0 : Math.max(0, parseFloat(event.target.value)),
-      toSell: (event.target.value === '' ? 0 : Math.max(0, parseFloat(event.target.value)) * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2)
+      toSell: parseFloat((event.target.value === '' ? 0 : Math.max(0, parseFloat(event.target.value)) * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2))
     });
   }
 
   handleBuyCurrencySelectChange(event) {
     this.setState({
       buyCurrency: event.target.value,
-      toSell: (this.state.toBuy * ((event.target.value == 'ruble' ? 1 : this.props.exchangeRates[event.target.value]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2)
+      toSell: parseFloat((this.state.toBuy * ((event.target.value == 'ruble' ? 1 : this.props.exchangeRates[event.target.value]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2))
     });
   }
 
   handleSellCurrencySelectChange(event) {
     this.setState({
       sellCurrency: event.target.value,
-      toSell: (this.state.toBuy * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (event.target.value == 'ruble' ? 1 : this.props.exchangeRates[event.target.value]))).toFixed(2)
+      toSell: parseFloat((this.state.toBuy * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (event.target.value == 'ruble' ? 1 : this.props.exchangeRates[event.target.value]))).toFixed(2))
     });
+  }
+
+  handleConfirmButtonClick() {
+    if (this.state.toSell <= this.state.budget[this.state.sellCurrency]) {
+      var newBudget = this.state.budget;
+
+      newBudget[this.state.sellCurrency] = parseFloat((this.state.budget[this.state.sellCurrency] - this.state.toSell).toFixed(2));
+      newBudget[this.state.buyCurrency] = parseFloat((this.state.budget[this.state.buyCurrency] + this.state.toBuy).toFixed(2));
+
+      this.setState({
+        budget: newBudget
+      });
+    }
+    else {
+      alert('You don\'t have enough money my dude');
+    }
   }
 }
