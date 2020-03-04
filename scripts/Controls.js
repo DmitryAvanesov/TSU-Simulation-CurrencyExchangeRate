@@ -7,8 +7,8 @@ class Controls extends React.Component {
     this.state = {
       toBuy: 0,
       toSell: 0,
-      buyCurrency: 'ruble',
-      sellCurrency: 'ruble',
+      buyCurrency: 'RUB',
+      sellCurrency: 'RUB',
       budget: {
         RUB: 50000,
         USD: 300,
