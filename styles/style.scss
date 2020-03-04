@@ -34,9 +34,22 @@
     color: white;
   }
 
+  input {
+    width: 150px;
+  }
+
   .purchase {
     * {
       margin-right: 10px;
+    }
+
+    .conversion {
+      display: inline-block;
+      vertical-align: middle;
+      width: 150px;
+      height: 22px;
+      background-color: white;
+      color: black;
     }
   }
 }

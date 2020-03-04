@@ -18,7 +18,7 @@ class Settings extends React.Component {
         <span className='span-margin-right'>Number of days</span>
 
         <input
-          value={this.numberOfDays}
+          value={this.state.numberOfDays}
           onChange={this.handleNumberOfDaysChange}
           type='number'
           disabled={this.state.disabled}>
@@ -41,7 +41,7 @@ class Settings extends React.Component {
 
   handleNumberOfDaysChange(event) {
     this.setState({
-      numberOfDays: event.target.value
+      numberOfDays: Math.max(0, event.target.value)
     });
   }
 

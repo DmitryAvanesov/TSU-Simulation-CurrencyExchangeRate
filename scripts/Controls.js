@@ -5,14 +5,28 @@ class Controls extends React.Component {
     super(props);
 
     this.model = new ControlsModel();
+    this.state = {
+      toBuy: null,
+      toSell: null,
+      buyCurrency: 'ruble',
+      sellCurrency: 'ruble'
+    };
+
+    this.handleNextDayButtonClick = this.handleNextDayButtonClick.bind(this);
+    this.handleToBuyInputChange = this.handleToBuyInputChange.bind(this);
+    this.handleBuyCurrencySelectChange = this.handleBuyCurrencySelectChange.bind(this);
+    this.handleSellCurrencySelectChange = this.handleSellCurrencySelectChange.bind(this);
   }
 
   render() {
     return (
-      <div className='panel' style={{opacity: this.props.disabled ? 0.75 : 1}}>
+      <div className='panel' style={{ opacity: this.props.disabled ? 0.75 : 1 }}>
         <button
           className='next-day-button'
-          onClick={() => this.props.onNextButtonClick()}
+          onClick={async () => {
+            await this.props.onNextButtonClick();
+            this.handleNextDayButtonClick();
+          }}
           disabled={this.props.disabled}
         >
           Next day
@@ -23,25 +37,41 @@ class Controls extends React.Component {
         </ul>
 
         <div className='purchase'>
-          <span>Buy</span>
+          <div>
+            <span>Buy</span>
 
-          <input
-            type='number'
-            disabled={this.props.disabled}
-          >
-          </input>
+            <input
+              value={this.state.toBuy}
+              onChange={this.handleToBuyInputChange}
+              type='number'
+              disabled={this.props.disabled}
+            >
+            </input>
 
-          <select disabled={this.props.disabled}>
-            {this.renderCurrencies()}
-          </select>
+            <select
+              onChange={this.handleBuyCurrencySelectChange}
+              disabled={this.props.disabled}
+            >
+              {this.renderCurrencies()}
+            </select>
+          </div>
 
-          <span>for</span>
+          <div>
+            <span>for</span>
 
-          <select disabled={this.props.disabled}>
-            {this.renderCurrencies()}
-          </select>
+            <div className='conversion'>
+              {this.state.toSell}
+            </div>
 
-          <button>Confirm</button>
+            <select
+              onChange={this.handleSellCurrencySelectChange}
+              disabled={this.props.disabled}
+            >
+              {this.renderCurrencies()}
+            </select>
+
+            <button>Confirm</button>
+          </div>
         </div>
       </div>
     );
@@ -65,5 +95,32 @@ class Controls extends React.Component {
     }
 
     return options;
+  }
+
+  handleNextDayButtonClick(event) {
+    this.setState({
+      toSell: (this.state.toBuy * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2)
+    });
+  }
+
+  handleToBuyInputChange(event) {
+    this.setState({
+      toBuy: event.target.value === '' ? 0 : Math.max(0, parseFloat(event.target.value)),
+      toSell: (event.target.value === '' ? 0 : Math.max(0, parseFloat(event.target.value)) * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2)
+    });
+  }
+
+  handleBuyCurrencySelectChange(event) {
+    this.setState({
+      buyCurrency: event.target.value,
+      toSell: (this.state.toBuy * ((event.target.value == 'ruble' ? 1 : this.props.exchangeRates[event.target.value]) / (this.state.sellCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.sellCurrency]))).toFixed(2)
+    });
+  }
+
+  handleSellCurrencySelectChange(event) {
+    this.setState({
+      sellCurrency: event.target.value,
+      toSell: (this.state.toBuy * ((this.state.buyCurrency == 'ruble' ? 1 : this.props.exchangeRates[this.state.buyCurrency]) / (event.target.value == 'ruble' ? 1 : this.props.exchangeRates[event.target.value]))).toFixed(2)
+    });
   }
 }
