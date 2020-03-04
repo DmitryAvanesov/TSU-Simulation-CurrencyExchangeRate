@@ -19,8 +19,10 @@ class ChartModel {
   
       this.data.push({
         time: tmpDate.toLocaleString().split(',')[0],
-        dollar: this.curExchangeRates.dollar,
-        euro: this.curExchangeRates.euro
+        USD: this.curExchangeRates.USD,
+        EUR: this.curExchangeRates.EUR,
+        JPY: this.curExchangeRates.JPY,
+        GBP: this.curExchangeRates.GBP
       });
     }
   }

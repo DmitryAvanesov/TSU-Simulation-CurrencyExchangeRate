@@ -8,8 +8,10 @@ class Simulation extends React.Component {
       numberOfDays: 0,
       controlsDisabled: true,
       exchangeRates: {
-        dollar: 67.05,
-        euro: 74.67
+        USD: 67.05,
+        EUR: 74.67,
+        JPY: 0.62,
+        GBP: 84.56
       }
     }
 
